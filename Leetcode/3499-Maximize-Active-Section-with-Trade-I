@@ -1,0 +1,32 @@
+class Solution {
+    public int maxActiveSectionsAfterTrade(String s) {
+        int n = s.length(); int initOnes = 0;
+        for(char c : s.toCharArray()){
+            if( c == '1') initOnes++;
+        }
+
+        String t = '1' + s + '1'; int nt = t.length();
+        int maxGain = 0;
+        int ptr = 0;
+        int len_m1 = 0; char type_m1 = ' ';
+        int len_m2 = 0; char type_m2 = ' ';
+
+        while(ptr < nt){
+            char curr_type = t.charAt(ptr);
+            int start = ptr;
+            while(ptr < nt && curr_type == t.charAt(ptr)) ptr++;
+
+            int curr_len = ptr - start;
+
+            if(type_m2 == '0' && type_m1 == '1' && curr_type == '0'){
+                maxGain = Math.max(maxGain, len_m2 + curr_len);
+            }
+
+            type_m2 = type_m1;
+            type_m1 = curr_type;
+            len_m2 = len_m1;
+            len_m1 = curr_len;
+        }
+        return initOnes + maxGain;
+    }
+}
